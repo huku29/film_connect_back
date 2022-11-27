@@ -73,3 +73,5 @@ end
 
 gem 'faraday'
 gem 'dotenv-rails'
+gem 'jwt'
+gem 'firebase-auth-rails' 

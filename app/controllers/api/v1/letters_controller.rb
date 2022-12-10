@@ -3,7 +3,12 @@ module Api
     class LettersController < ApplicationController
 
       include FirebaseAuthConcern
-      before_action :set_auth, only: %i[create]
+      before_action :set_auth, only: %i[random create]
+
+      include RandomLetterConcern
+      def random 
+        random_letter(@auth)
+      end
 
   
 
@@ -22,7 +27,7 @@ module Api
       end
 
       def letter_params
-        params.fetch(:letter,{}).permit(:film_id,:recommend_point)
+        params.require(:letter).permit(:film_id,:recommend_point)
       end
 
     end

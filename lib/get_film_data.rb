@@ -18,6 +18,14 @@ class GetFilmData
     response.body
   end
 
+
+  def detail_film(film_id)
+    @connection.params[:film_id] = film_id
+    response = @connection.get("#{BASE_URL}/movie/#{film_id}")
+    response.body
+  end
+
+
   class << self
     def client
       GetFilmData.new
@@ -25,6 +33,10 @@ class GetFilmData
 
     def search_films(search_word, page)
       client.search_films(search_word, page)
+    end
+
+    def detail_film(film_id)
+      client.detail_film(film_id)
     end
 
   end

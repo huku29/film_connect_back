@@ -8,7 +8,6 @@ module Api
       extend ActiveSupport::Concern
       include ActionController::HttpAuthentication::Token::ControllerMethods
 
-      CONFIG = YAML.load_file(Rails.root.join('config/firebase_config.yml'))
 
       ALGORITHM       = 'RS256'.freeze
       ISSUER_BASE_URL = 'https://securetoken.google.com/'.freeze
@@ -79,9 +78,8 @@ module Api
       end
 
       def validate(json)
-        # binding.pry
         errors = []
-        project_id = CONFIG['project_info']['project_id']
+        project_id = ENV["FIREBASE_PROJECT_ID"]
         payload = json[:payload]
         header = json[:header]
         issuer = ISSUER_BASE_URL + project_id

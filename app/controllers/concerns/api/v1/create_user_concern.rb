@@ -11,7 +11,7 @@ module Api
         # email = auth[:data][:decoded_token][:payload]["email"]
         render json: { message: 'すでに登録されています' } and return if User.find_by(uid: uid)
 
-        user = User.new(name: "@#{twitter_user_name}", uid: uid)
+        user = User.new(name: twitter_user_name, uid: uid)
         if user.save
           render json: { message: '登録が成功しました' }
         else

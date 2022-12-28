@@ -6,6 +6,13 @@ module Api
     
         render json: films, status: :ok
       end
+
+      def info
+        detail = GetFilmData.detail_film(params[:film_id])
+
+        render json: detail, status: :ok
+      end
+
     end
   end
 end

@@ -3,19 +3,15 @@ module Api
     module RandomLetterConcern
       extend ActiveSupport::Concern
 
-      def random_letter(auth)
-  
-        render json: auth, status: :unauthorized and return unless auth[:data]
-        uid = auth[:data][:uid]
-        current_user = User.find_by(uid: uid)
+      def random_letter(current_user)
         current_user_id = current_user.id
-        count = Letter.where.not(user_id: current_user_id).length
-        letter = Letter.where.not(user_id: current_user_id).offset(rand(count)).limit(1).first
-        sender_user_id = letter.user_id
-        film_id = letter.film_id
-        detail = GetFilmData.detail_film(film_id)
-        user = User.find_by(id: sender_user_id)
-        render json:{letter: letter, user: user, detail: detail }, status: :ok
+        received_letters = current_user.received_letters
+        received_letter_id_list = received_letters.pluck(:letter_id)
+        # 自分以外のユーザーが作成したレターの数を定義してる
+        other_user_create_letters = Letter.where.not(user_id: current_user_id)
+        count = other_user_create_letters.length
+        # offsetは歯ぬきをよしなに処理してくれる。自分が作っていないレターの総数から自分の作っていないレターをランダムに選択して、一つ表示させる。
+        other_user_create_letters.where.not(id: received_letter_id_list).offset(rand(count -1)).limit(1).first
       end
     end
   end

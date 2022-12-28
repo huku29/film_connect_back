@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_02_024051) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_26_020342) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -23,6 +23,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_02_024051) do
     t.index ["user_id"], name: "index_letters_on_user_id"
   end
 
+  create_table "received_letters", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "letter_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["letter_id"], name: "index_received_letters_on_letter_id"
+    t.index ["user_id"], name: "index_received_letters_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "uid", null: false
@@ -33,4 +42,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_02_024051) do
   end
 
   add_foreign_key "letters", "users"
+  add_foreign_key "received_letters", "letters"
+  add_foreign_key "received_letters", "users"
 end

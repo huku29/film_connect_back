@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get '/letters', to: 'letters#index'
       get 'letters/random', to: 'letters#random'
       post '/letters', to: 'letters#create'
+      get '/users/info', to: 'users#info'
       post '/users', to: 'users#create'
       get 'films/search'
       get 'films/info'

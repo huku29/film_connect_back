@@ -29,14 +29,16 @@ module Api
 
       end
 
-      
-  
 
       include CreateLetterConcern
       def create
         create_letter(@auth, letter_params)
       end
 
+      def rank
+        created_letter_ranking =Letter.group(:film_id).order('count(film_id) DESC').limit(5).pluck(:film_id)
+        render json:  created_letter_ranking, status: :ok
+      end
 
 
 

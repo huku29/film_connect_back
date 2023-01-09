@@ -1,4 +1,4 @@
-class ReceivedLetter < ApplicationRecord
+class NotWatchFilmLetter < ApplicationRecord
   belongs_to :user
   belongs_to :letter
 

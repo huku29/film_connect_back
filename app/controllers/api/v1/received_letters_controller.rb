@@ -61,7 +61,7 @@ module Api
 
 
       def received_letter_params
-        params.require(:received_letter).permit(:letter_id,:receiver_id)
+        params.require(:received_letter).permit(:letter_id,:user_id)
       end
 
 

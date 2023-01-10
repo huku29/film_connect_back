@@ -2,15 +2,21 @@ module Api
   module V1
     class UsersController < ApplicationController
       include FirebaseAuthConcern
-      before_action :set_auth, only: %i[create update]
+      before_action :set_auth, only: %w[create]
 
-      include CreateUserConcern
+
       def create
-        create_user(@auth,params[:twitterUserName])
+        user = create_user(@auth,params[:twitterUserName])
+        if user.save
+          render json: { message: '登録が成功しました' }
+        else
+          render json: user.errors.messages, status: :unprocessable_entity
+        end
       end
 
       def info
-        get_user_infos(params[:user_id])
+        user_info = get_user_infos(params[:user_id])
+        render json: user_info, status: :ok
       end
 
 
@@ -18,11 +24,22 @@ module Api
 
       def set_auth
         @auth = authenticate_token_by_firebase
+        render json: @auth, status: :unauthorized and return unless @auth[:data]
+      end
+
+      def set_current_user
+        @auth = authenticate_token_by_firebase
+        uid = @auth[:data][:uid]
+        @current_user = User.find_by(uid: uid)
+      end
+
+      def create_user(auth, twitter_user_name)
+        render json: { message: 'すでに登録されています' } and return if User.find_by(uid: uid)
+        user = User.new(name: twitter_user_name, uid: uid)
       end
 
       def get_user_infos(user_id)
-        user_info = User.where(id: user_id).all
-        render json: user_info, status: :ok
+        User.where(id: user_id).all
       end
 
     end

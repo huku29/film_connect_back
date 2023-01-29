@@ -34,6 +34,7 @@ module Api
       end
 
       def create_user(auth, twitter_user_name)
+        uid = auth[:data][:uid]
         render json: { message: 'すでに登録されています' } and return if User.find_by(uid: uid)
         user = User.new(name: twitter_user_name, uid: uid)
       end

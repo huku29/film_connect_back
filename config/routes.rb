@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :letters, only: %i[index create] do
         collection do 
           get 'random'
+          get 'random_by_english'
           get 'rank'
         end
       end
@@ -30,7 +31,9 @@ Rails.application.routes.draw do
       end
       
       get 'films/search'
+      get 'films/search_by_english'
       get 'films/info'
+      get 'films/info_by_english'
     end
   end
 end

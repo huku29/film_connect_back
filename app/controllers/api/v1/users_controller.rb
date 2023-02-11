@@ -3,6 +3,7 @@ module Api
     class UsersController < ApplicationController
       include FirebaseAuthConcern
       before_action :set_auth, only: %w[create]
+      before_action :create_user, only: %w[create]
 
 
       def create

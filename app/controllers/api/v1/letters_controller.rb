@@ -3,8 +3,8 @@ module Api
     class LettersController < ApplicationController
 
       include FirebaseAuthConcern
-      before_action :set_auth,  only: %w[random create index]
-      before_action :set_current_user, only: %w[random create index]
+      before_action :set_auth,  only: %w[random create index random_by_english]
+      before_action :set_current_user, only: %w[random create index random_by_english]
 
       def index
         letters = Letter.where(user_id: @current_user.id).all
@@ -18,6 +18,20 @@ module Api
           sender_user_id = letter.user_id
           film_id = letter.film_id
           detail = GetFilmData.detail_film(film_id)
+          user = User.find_by(id: sender_user_id)
+          current_user_id = @current_user.id
+          render json:{letter: letter, user: user, detail: detail ,current_user_id: current_user_id}, status: :ok
+        else
+          render json:{message:"受け取れるおすすめ映画がありません"}, status: :ok
+        end
+      end
+
+      def random_by_english 
+        letter = random_letter(@current_user)
+        if letter.present?
+          sender_user_id = letter.user_id
+          film_id = letter.film_id
+          detail = GetFilmData.detail_film_by_english(film_id)
           user = User.find_by(id: sender_user_id)
           current_user_id = @current_user.id
           render json:{letter: letter, user: user, detail: detail ,current_user_id: current_user_id}, status: :ok

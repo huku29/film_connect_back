@@ -43,8 +43,6 @@ group :development, :test do
 
   # Test
   gem 'rspec-rails'
-  gem 'capybara'
-  gem 'webdrivers'
   gem 'factory_bot_rails'
   # デバック
   gem 'pry-byebug'

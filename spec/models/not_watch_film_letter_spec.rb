@@ -21,5 +21,12 @@
 require 'rails_helper'
 
 RSpec.describe NotWatchFilmLetter, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validation' do
+    it 'is valid with all attributes' do
+      not_watch_film_letter = build(:not_watch_film_letter)
+      expect(not_watch_film_letter).to be_valid
+      expect(not_watch_film_letter.errors).to be_empty
+    end
+  end
+
 end

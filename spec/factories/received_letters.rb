@@ -20,7 +20,7 @@
 #
 FactoryBot.define do
   factory :received_letter do
-    user { nil }
-    letter { nil }
+    association :user
+    association :letter
   end
 end

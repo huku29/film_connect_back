@@ -21,5 +21,11 @@
 require 'rails_helper'
 
 RSpec.describe ReceivedLetter, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validation' do
+    it 'is valid with all attributes' do
+      received_letter = build(:received_letter)
+      expect(received_letter).to be_valid
+      expect(received_letter.errors).to be_empty
+    end
+  end
 end
